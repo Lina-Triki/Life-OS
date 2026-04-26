@@ -1,0 +1,26 @@
+{
+  "package": {
+    "productName": "Queenzy LifeOS",
+    "version": "0.1.0"
+  },
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
+    "devPath": "http://localhost:1420",
+    "distDir": "../src/ui/dist",
+    "withGlobalTauri": false
+  },
+  "tauri": {
+    "windows": [
+      {
+        "title": "Queenzy LifeOS",
+        "width": 1200,
+        "height": 780,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}

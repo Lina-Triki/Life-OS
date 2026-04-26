@@ -1,8 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   color-scheme: dark;
-  font-family: Inter, system-ui, sans-serif;
-  background: #10101a;
-  color: #e6e8ff;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #090a12;
+  color: #e2e8f0;
   font-size: 16px;
 }
 
@@ -17,71 +21,91 @@ html, body, #root {
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.16), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.12), transparent 24%),
-    #090a12;
+  min-height: 100vh;
+  background-color: #050816;
+  color: #e2e8f0;
 }
 
 button {
-  border: 0;
+  border: none;
   cursor: pointer;
   font: inherit;
 }
 
-.app-shell {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-  gap: 24px;
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+  color: white;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.22), transparent 22%),
+    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.12), transparent 26%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.card {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 28px;
   padding: 24px;
+  color: #e2e8f0;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.45);
 }
 
-.app-sidebar {
+.card-header {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 24px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
 
-.brand {
-  font-size: 1.25rem;
-  font-weight: 700;
+.card-label {
+  margin: 0 0 10px;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
 }
 
-.side-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.eyebrow {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
 }
 
-.nav-link {
-  display: block;
-  padding: 12px 16px;
-  border-radius: 14px;
-  color: #cbd5e1;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
   background: rgba(99, 102, 241, 0.18);
-  color: #f8fafc;
+  color: #e2e8f0;
+  font-size: 0.9rem;
 }
 
 .primary-button,
 .secondary-button {
-  padding: 12px 18px;
-  border-radius: 14px;
+  padding: 0.9rem 1.4rem;
+  border-radius: 1rem;
   font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .primary-button {
-  background: #6366f1;
-  color: white;
+  background: linear-gradient(135deg, #8b5cf6, #38bdf8);
+  color: #020617;
+  box-shadow: 0 18px 40px rgba(99, 102, 241, 0.22);
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
 }
 
 .secondary-button {
@@ -90,74 +114,22 @@ button {
 }
 
 .secondary-button.active {
-  background: rgba(59, 130, 246, 0.18);
+  background: rgba(99, 102, 241, 0.18);
+  color: #f8fafc;
 }
 
-.app-main {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.eyebrow {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.status-pill {
-  align-self: center;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(99, 102, 241, 0.15);
-  color: #e2e8f0;
-  font-size: 0.9rem;
-}
-
-.card {
-  background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.08);
-  border-radius: 24px;
-  padding: 24px;
-  color: #e2e8f0;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.card-label {
-  margin: 0 0 8px;
-  color: #94a3b8;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.progress-card,
-.stat-card,
-.quick-actions-card,
-.report-summary-card,
-.privacy-card,
-.reflection-list-card,
+.task-card,
+.reflection-row,
 .diary-card,
 .error-card,
-.empty-state-card,
-.task-card
-{
-  min-height: 160px;
+.empty-state-card {
+  display: grid;
+  gap: 18px;
+}
+
+.task-card {
+  grid-template-columns: 1fr auto;
+  align-items: center;
 }
 
 .progress-bar {
@@ -171,52 +143,50 @@ button {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #38bdf8);
+  background: linear-gradient(90deg, #8b5cf6, #38bdf8);
 }
 
 .caption {
   margin-top: 12px;
   color: #94a3b8;
+  line-height: 1.6;
 }
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
   gap: 24px;
+  grid-template-columns: 1.2fr 0.8fr;
 }
 
 .dashboard-panels {
   display: grid;
-  gap: 24px;
+  gap: 20px;
 }
 
-.action-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 18px;
+.report-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .task-page,
 .diary-page,
 .report-page {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 24px;
 }
 
 .task-header,
 .section-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 16px;
 }
 
 .filter-buttons {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
 .task-list,
@@ -226,24 +196,15 @@ button {
   gap: 16px;
 }
 
-.task-card,
-.reflection-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-}
-
 .skeleton-grid {
   display: grid;
   gap: 16px;
 }
 
 .skeleton-card {
-  height: 120px;
+  min-height: 120px;
   background: rgba(148, 163, 184, 0.08);
-  border-radius: 20px;
+  border-radius: 24px;
   animation: pulse 1.4s ease-in-out infinite;
 }
 
@@ -252,10 +213,11 @@ button {
   50% { opacity: 0.45; }
 }
 
-.error-card,
-.empty-state-card {
-  display: grid;
-  gap: 14px;
+@media (max-width: 1024px) {
+  .dashboard-grid,
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .error-card {

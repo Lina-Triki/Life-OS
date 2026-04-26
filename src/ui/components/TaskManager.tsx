@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useAppStore } from '../store';
 
 const statusOptions = ['All', 'Pending', 'Completed', 'Skipped'] as const;
@@ -21,9 +22,12 @@ export function TaskManager() {
 
   if (loading) {
     return (
-      <div className="task-page">
-        <h2>Task Manager</h2>
-        <div className="skeleton-grid">
+      <div className="task-page grid gap-6">
+        <div className="space-y-3">
+          <p className="eyebrow">Task Manager</p>
+          <h2 className="text-3xl font-semibold text-white">Loading your task board</h2>
+        </div>
+        <div className="skeleton-grid lg:grid-cols-3">
           <div className="skeleton-card" />
           <div className="skeleton-card" />
           <div className="skeleton-card" />
@@ -34,14 +38,19 @@ export function TaskManager() {
 
   if (taskError) {
     return (
-      <div className="task-page">
-        <h2>Task Manager</h2>
-        <div className="error-card">
-          <h3>Database unavailable</h3>
-          <p>The task database is locked or unavailable. Please restart the app or try again later.</p>
-          <button className="primary-button" onClick={() => window.location.reload()}>
-            Retry
-          </button>
+      <div className="task-page grid gap-6">
+        <div className="space-y-3">
+          <p className="eyebrow">Task Manager</p>
+          <h2 className="text-3xl font-semibold text-white">Unable to load tasks</h2>
+        </div>
+        <div className="card error-card">
+          <div className="space-y-3">
+            <h3 className="text-xl font-semibold text-white">Database unavailable</h3>
+            <p className="caption">The task database is locked or unavailable. Restart the app or try again in a moment.</p>
+            <button className="primary-button" onClick={() => window.location.reload()}>
+              Retry
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -49,13 +58,16 @@ export function TaskManager() {
 
   if (visibleTasks.length === 0) {
     return (
-      <div className="task-page">
-        <h2>Task Manager</h2>
-        <div className="empty-state-card">
+      <div className="task-page grid gap-6">
+        <div className="space-y-3">
+          <p className="eyebrow">Task Manager</p>
+          <h2 className="text-3xl font-semibold text-white">Start shaping your day</h2>
+        </div>
+        <div className="card empty-state-card">
           <p className="card-label">No tasks yet</p>
-          <h3>Start building momentum</h3>
-          <p>Once your first task is added and completed, Queenzy will begin tracking streaks and XP.</p>
-          <button className="primary-button" disabled>
+          <h3 className="text-2xl font-semibold text-white">Start building momentum</h3>
+          <p className="caption">Once your first task is added and completed, Queenzy will begin tracking streaks and XP.</p>
+          <button className="primary-button w-fit cursor-not-allowed opacity-70" disabled>
             Create your first task
           </button>
         </div>
@@ -64,17 +76,17 @@ export function TaskManager() {
   }
 
   return (
-    <div className="task-page">
-      <div className="task-header">
+    <div className="task-page grid gap-6">
+      <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
         <div>
           <p className="eyebrow">Task Manager</p>
-          <h2>Keep your workload aligned</h2>
+          <h2 className="text-3xl font-semibold text-white">Keep your workload aligned</h2>
         </div>
         <div className="filter-buttons">
           {statusOptions.map((option) => (
             <button
               key={option}
-              className={`secondary-button${filter === option ? ' active' : ''}`}
+              className={`secondary-button ${filter === option ? 'active' : ''}`}
               onClick={() => setFilter(option)}
             >
               {option}
@@ -83,33 +95,38 @@ export function TaskManager() {
         </div>
       </div>
 
-      <div className="task-list">
+      <div className="grid gap-4">
         {visibleTasks.map((task) => (
-          <article key={task.task_id} className="task-card">
-            <div>
+          <motion.article
+            key={task.task_id}
+            layout
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="card task-card"
+          >
+            <div className="space-y-2">
               <p className="card-label">{task.status}</p>
-              <h3>{task.title}</h3>
+              <h3 className="text-xl font-semibold text-white">{task.title}</h3>
               <p className="caption">Difficulty: {task.difficulty}</p>
             </div>
-            <div className="task-actions">
-              <button
-                className="primary-button"
-                disabled={task.status === 'Completed'}
-                onClick={() =>
-                  void completeTask(task.task_id, {
-                    completedAtUTC: new Date().toISOString(),
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    completionDurationMinutes: 15,
-                    quality: 'Standard',
-                    source: 'Manual',
-                    metadataHash: '',
-                  })
-                }
-              >
-                Complete
-              </button>
-            </div>
-          </article>
+            <button
+              className="primary-button w-max"
+              disabled={task.status === 'Completed'}
+              onClick={() =>
+                void completeTask(task.task_id, {
+                  completedAtUTC: new Date().toISOString(),
+                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  completionDurationMinutes: 15,
+                  quality: 'Standard',
+                  source: 'Manual',
+                  metadataHash: '',
+                })
+              }
+            >
+              Complete
+            </button>
+          </motion.article>
         ))}
       </div>
     </div>
